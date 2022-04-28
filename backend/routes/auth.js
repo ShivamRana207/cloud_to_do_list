@@ -6,11 +6,11 @@ const user =  require('../models/User');
 // Creatin a user Using : POST at "/api/auth", Who do not need auth.
 
 
-router.get('/', (req,res)=>{
+router.post('/', (req,res)=>{
   res.send(req.body);
     const user = User(req.body);
     console.log(req.body);
-    user.save;
+    user.save();
 })
 // trying to remove mongodb error
 
