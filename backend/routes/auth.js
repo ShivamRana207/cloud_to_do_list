@@ -7,21 +7,28 @@ const { body, validationResult } = require('express-validator');
 // Creatin a user Using : POST at "/api/auth", Who do not need auth.
 
 //adding validation with the help of validtor package
-router.post('/', [body('username').isLength({ min: 6 }),
+router.post('/CreateUser', [body('username').isLength({ min: 6 }),
 body('email').isEmail(),
 body('password').isLength({ min: 8 })
 ],
 
-  (req, res) => {
+  async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    User.create({
+    // check if user with same email is already exist 
+    let user = user.findOne({ email: req.body.email });
+    if (user) {
+      return res.staus(400).json({ error: "Sorry a this Email is already with register with other user" })
+
+    }
+    user = await User.create({
       username: req.body.username,
       password: req.body.password,
       email: req.body.email
-    }).then(user => res.json(user));
+    })
+    //.then(user => res.json(user));
   })
 
 
