@@ -18,9 +18,9 @@ body('password').isLength({ min: 8 })
       return res.status(400).json({ errors: errors.array() });
     }
     // check if user with same email is already exist 
-    let user = user.findOne({ email: req.body.email });
+    let user = await User.findOne({ email: req.body.email });
     if (user) {
-      return res.staus(400).json({ error: "Sorry a this Email is already with register with other user" })
+      return res.status(400).json({ error: "Sorry a this Email is already  register with other user" })
 
     }
     user = await User.create({
@@ -29,6 +29,7 @@ body('password').isLength({ min: 8 })
       email: req.body.email
     })
     //.then(user => res.json(user));
+    res.json(user)
   })
 
 
